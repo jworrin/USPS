@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
+const path = require("path");
 const app = express();
 
 //parse requests of content-type application/json
@@ -12,7 +12,9 @@ app.use(bodyParser.urlencoded({extended: true }));
 
 //simple route
 app.get("/", (req,res) => {
-	res.json({ message: "Welcome to USPS application." });
+	res.sendFile(path.join(__dirname + '/charts/charts.html'));
+
+	//res.json({ message: "Welcome to USPS application." });
 });
 
 require("./routes/parcel.routes.js")(app);

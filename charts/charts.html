@@ -1,7 +1,6 @@
-<!DOCTYPE HTML>
 <html>
 <head>  
-<script type="text/javascript" src="./jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="http://jworrin.com/charts/jquery-1.11.1.min.js"></script>
 
   <script type="text/javascript">
   window.onload = function () {
@@ -9,7 +8,8 @@
 let locationMap = new Map()
 let chartData = [];
 
-$.getJSON("http://jworrin.com:3432/parcels/", function(data, textStatus, jqXHR) {
+//$.getJSON("http://jworrin.com:3432/parcels/", function(data, textStatus, jqXHR) {
+$.getJSON("http://jworrin.com/charts/parcels/", function(data, textStatus, jqXHR) {
 	document.getElementById('rawData').innerText = jqXHR.responseText;
         $.each(data, function(key, value){
                 if(locationMap.has(value.name))
@@ -62,7 +62,7 @@ $.getJSON("http://jworrin.com:3432/parcels/", function(data, textStatus, jqXHR) 
 
   }
   </script>
- <script type="text/javascript" src="./canvasjs.min.js"></script></head>
+ <script type="text/javascript" src="http://jworrin.com/charts/canvasjs.min.js"></script></head>
 <body>
   <div id="chartContainer" style="height: 300px; width: 100%;">
   </div>
