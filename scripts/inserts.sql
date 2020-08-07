@@ -1,5 +1,5 @@
-INSERT INTO PARCEL(id, locationId, sentDate) VALUES(1001, 1, 2020/08/06);
-INSERT INTO PARCEL(id, locationId, sentDate) VALUES(2001, 2, 2020/08/06);
-INSERT INTO PARCEL(id, locationId, sentDate) VALUES(3001, 3, 2020/08/06);
-INSERT INTO PARCEL(id, locationId, sentDate) VALUES(4001, 4, 2020/08/06);
-INSERT INTO PARCEL(id, locationId, sentDate) VALUES(5001, 5, 2020/08/06);
+INSERT INTO PARCEL(id, locationId, sentDate) VALUES(1002, 1, '2020-08-07');
+INSERT INTO PARCEL(id, locationId, sentDate) VALUES(2002, 2, '2020-08-07');
+INSERT INTO PARCEL(id, locationId, sentDate) VALUES(3002, 3, '2020-08-07');
+INSERT INTO PARCEL(id, locationId, sentDate) VALUES(4002, 4, '2020-08-07');
+INSERT INTO PARCEL(id, locationId, sentDate) VALUES(5002, 5, '2020-08-07');
