@@ -1,0 +1,22 @@
+{
+  "name": "usps",
+  "version": "1.0.0",
+  "description": "Node.js restufl crud api with node.js, express and mariadb",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mariadb",
+    "restapi"
+  ],
+  "author": "jworrin",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}

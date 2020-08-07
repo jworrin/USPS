@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+<head>  
+<script type="text/javascript" src="./jquery-1.11.1.min.js"></script>
+
+  <script type="text/javascript">
+  window.onload = function () {
+
+let locationMap = new Map()
+let chartData = [];
+
+$.getJSON("http://jworrin.com:3432/parcels/", function(data, textStatus, jqXHR) {
+	document.getElementById('rawData').innerText = jqXHR.responseText;
+        $.each(data, function(key, value){
+                if(locationMap.has(value.name))
+                {
+                        locationMap.get(value.name).push({x: new Date(value.sentDate), y: value.days});
+                }
+                else
+                {
+                        locationMap.set(value.name, [{x: new Date(value.sentDate), y: value.days}]);
+                }
+
+        });
+
+	locationMap.forEach(function(value, key) {
+	chartData.push(
+		{ type: "line",
+        	name: key,
+        	showInLegend: true,
+        	dataPoints: value
+      		});
+	});
+
+	var chart = new CanvasJS.Chart("chartContainer",
+    	{
+      		title:{
+      		text: "Time it took to get to location by date sent"
+      		},
+		axisX:{
+			valueFormatString: "DDMMMYYYY",
+			labelAngle: -50
+		},
+      		legend: {
+        		cursor: "pointer",
+        		itemclick: toggleDataSeries
+      		},
+        	data: chartData
+	});
+
+    	function toggleDataSeries(e) {
+        	if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                	e.dataSeries.visible = false;
+        	} else {
+                	e.dataSeries.visible = true;
+        	}
+        	e.chart.render();
+    	}
+
+    chart.render();
+});
+
+  }
+  </script>
+ <script type="text/javascript" src="./canvasjs.min.js"></script></head>
+<body>
+  <div id="chartContainer" style="height: 300px; width: 100%;">
+  </div>
+  raw data feed:
+  <div id="rawData">
+  </div>
+</body>
+</html>
