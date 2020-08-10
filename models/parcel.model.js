@@ -46,7 +46,7 @@ Parcel.findById = (parcelId, result) => {
 
 
 Parcel.getAll = result => {
-  sql.query("SELECT DATE_FORMAT(p.sentDate,'%Y-%m-%d') as sentDate, DATEDIFF(receivedDate,sentDate) as days, l.name FROM USPS.PARCEL p, LOCATION l where p.locationId = l.id AND p.receivedDate IS NOT NULL ORDER BY l.name, p.sentDate", (err, res) => {
+  sql.query("SELECT DATE_FORMAT(p.sentDate,'%Y-%m-%d') as sentDate, DATE_FORMAT(p.receivedDate, '%Y-%m-%d') as receivedDate, DATEDIFF(receivedDate,sentDate) as days, l.name FROM USPS.PARCEL p, LOCATION l where p.locationId = l.id AND p.receivedDate IS NOT NULL ORDER BY l.name, p.sentDate", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
