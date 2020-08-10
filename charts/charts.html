@@ -60,16 +60,13 @@ $.getJSON("http://jworrin.com/charts/parcels/", function(data, textStatus, jqXHR
 function populateChartDataRow(dateIdentifier)
 {
   locationMap.clear(); 
-  alert(dateIdentifier);
   $.each(jsonDataObject, function(key, value){
     if(locationMap.has(value.name))
     {
-      //locationMap.get(value.name).push({x: new Date(value.sentDate), y: value.days});
       locationMap.get(value.name).push({x: new Date((dateIdentifier == 'sent' ? value.sentDate : value.receivedDate)), y: value.days});
     }
     else
     {
-      //locationMap.set(value.name, [{x: new Date(value.sentDate), y: value.days}]);
       locationMap.set(value.name, [{x: new Date((dateIdentifier == 'sent' ? value.sentDate : value.receivedDate)), y: value.days}]);
     }
   });
