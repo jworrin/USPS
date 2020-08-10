@@ -64,6 +64,12 @@ $.getJSON("http://jworrin.com/charts/parcels/", function(data, textStatus, jqXHR
   </script>
  <script type="text/javascript" src="http://jworrin.com/charts/canvasjs.min.js"></script></head>
 <body>
+  <div id="checkBoxes">
+    <h4>Please select your gender.</h4>
+    <p> 
+        <label><input type="radio" name="dateType" value="sentDate">Sent Date</label> 
+        <label><input type="radio" name="dateType" value="receivedDate">Received Date</label>
+    </p>
   <div id="chartContainer" style="height: 300px; width: 100%;">
   </div>
   raw data feed:
