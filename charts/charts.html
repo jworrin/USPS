@@ -3,25 +3,20 @@
 <script type="text/javascript" src="http://jworrin.com/charts/jquery-1.11.1.min.js"></script>
 
   <script type="text/javascript">
+
+  let jsonDataObject;
+  let locationMap = new Map();
+  let chartData = [];
+  let chartNameSent = "Time it took to get to location by date sent"
+  let chartNameReceived = "Time it took to get to location by date received"
+  let chartName = chartNameSent; 
+  var chart; 
   window.onload = function () {
 
-let locationMap = new Map()
-let chartData = [];
-
-//$.getJSON("http://jworrin.com:3432/parcels/", function(data, textStatus, jqXHR) {
 $.getJSON("http://jworrin.com/charts/parcels/", function(data, textStatus, jqXHR) {
+	jsonDataObject = data;
 	document.getElementById('rawData').innerText = jqXHR.responseText;
-        $.each(data, function(key, value){
-                if(locationMap.has(value.name))
-                {
-                        locationMap.get(value.name).push({x: new Date(value.sentDate), y: value.days});
-                }
-                else
-                {
-                        locationMap.set(value.name, [{x: new Date(value.sentDate), y: value.days}]);
-                }
-
-        });
+	populateChartDataRow('sent');
 
 	locationMap.forEach(function(value, key) {
 	chartData.push(
@@ -32,10 +27,10 @@ $.getJSON("http://jworrin.com/charts/parcels/", function(data, textStatus, jqXHR
       		});
 	});
 
-	var chart = new CanvasJS.Chart("chartContainer",
+	chart = new CanvasJS.Chart("chartContainer",
     	{
       		title:{
-      		text: "Time it took to get to location by date sent"
+      		text: chartName 
       		},
 		axisX:{
 			valueFormatString: "DDMMMYYYY",
@@ -61,15 +56,66 @@ $.getJSON("http://jworrin.com/charts/parcels/", function(data, textStatus, jqXHR
 });
 
   }
+
+function populateChartDataRow(dateIdentifier)
+{
+  locationMap.clear(); 
+  alert(dateIdentifier);
+  $.each(jsonDataObject, function(key, value){
+    if(locationMap.has(value.name))
+    {
+      //locationMap.get(value.name).push({x: new Date(value.sentDate), y: value.days});
+      locationMap.get(value.name).push({x: new Date((dateIdentifier == 'sent' ? value.sentDate : value.receivedDate)), y: value.days});
+    }
+    else
+    {
+      //locationMap.set(value.name, [{x: new Date(value.sentDate), y: value.days}]);
+      locationMap.set(value.name, [{x: new Date((dateIdentifier == 'sent' ? value.sentDate : value.receivedDate)), y: value.days}]);
+    }
+  });
+}
+
+ let updateChart = function () {
+
+      	chart.render();
+ }
+
+ $(document).ready(function(){
+
+  $("#checkBoxes input[name='dateType']").click(function(){
+    
+  if($('input:radio[name=dateType]:checked').val() == 'received')
+  {
+    chartName = chartNameReceived;
+    populateChartDataRow("received");
+  }
+  else
+  {
+    chartName = chartNameSent;
+    populateChartDataRow("sent");
+  }
+  
+  chart.title.set('text',chartName); 
+
+  updateChart();
+ });
+
+});
+
+
+
+
   </script>
  <script type="text/javascript" src="http://jworrin.com/charts/canvasjs.min.js"></script></head>
 <body>
-  <div id="checkBoxes">
-    <h4>Please select your gender.</h4>
+  <!-- <div id="checkBoxes" >
+    <h4>Please select if you want to see by the date sent or the date received.</h4>
     <p> 
-        <label><input type="radio" name="dateType" value="sentDate">Sent Date</label> 
-        <label><input type="radio" name="dateType" value="receivedDate">Received Date</label>
+        <label><input type="radio" name="dateType" value="sent" checked>Sent Date</label> 
+        <label><input type="radio" name="dateType" value="received">Received Date</label>
     </p>
+  </div>
+  -->
   <div id="chartContainer" style="height: 300px; width: 100%;">
   </div>
   raw data feed:
