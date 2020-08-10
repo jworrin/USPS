@@ -20,7 +20,7 @@ $.getJSON("http://jworrin.com/charts/parcels/", function(data, textStatus, jqXHR
 
 	locationMap.forEach(function(value, key) {
 	chartData.push(
-		{ type: "line",
+		{ type: "spline",
         	name: key,
         	showInLegend: true,
         	dataPoints: value
@@ -33,8 +33,10 @@ $.getJSON("http://jworrin.com/charts/parcels/", function(data, textStatus, jqXHR
       		text: chartName 
       		},
 		axisX:{
-			valueFormatString: "DDMMMYYYY",
-			labelAngle: -50
+			valueFormatString: "DD-MMM-YYYY HH:mm",
+			labelAngle: -50,
+			interval: 1,
+			intervalType: "day"
 		},
       		legend: {
         		cursor: "pointer",
@@ -63,11 +65,11 @@ function populateChartDataRow(dateIdentifier)
   $.each(jsonDataObject, function(key, value){
     if(locationMap.has(value.name))
     {
-      locationMap.get(value.name).push({x: new Date((dateIdentifier == 'sent' ? value.sentDate : value.receivedDate)), y: value.days});
+      locationMap.get(value.name).push({x: new Date((dateIdentifier == 'sent' ? value.sentDate : value.receivedDate) + " 00:00"), y: value.days});
     }
     else
     {
-      locationMap.set(value.name, [{x: new Date((dateIdentifier == 'sent' ? value.sentDate : value.receivedDate)), y: value.days}]);
+      locationMap.set(value.name, [{x: new Date((dateIdentifier == 'sent' ? value.sentDate : value.receivedDate) + " 00:00"), y: value.days}]);
     }
   });
 }
@@ -104,6 +106,7 @@ function populateChartDataRow(dateIdentifier)
 
   </script>
  <script type="text/javascript" src="http://jworrin.com/charts/canvasjs.min.js"></script></head>
+ <link rel="stylesheet" type="text/css" href="http://jworrin.com/charts/charts.css">
 <body>
   <!-- <div id="checkBoxes" >
     <h4>Please select if you want to see by the date sent or the date received.</h4>
